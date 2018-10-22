@@ -1,0 +1,5 @@
+number_of_generation: 100
+number_of_population: 10
+crossover_probability: 0.5
+mutation_probability: 0.6
+elitism_probability: 0.8
