@@ -8,6 +8,10 @@ class NumberOfCarInputStock(Stock):
         self.time = 0
 
     def make_flow(self):
+        """
+        Make an output flow based on this stock's output configuration
+        :return: None
+        """
         set_variable = 0
         for i in range(len(self.outputFlowConfig)):
             set_variable = set_variable + self.outputFlowConfig[-1-i]*(self.time**i)
@@ -18,13 +22,27 @@ class NumberOfCarInputStock(Stock):
         self.time = self.time + 1
 
     def set_config(self, config):
+        """
+        Set configuration to a given configuration.
+        :param config: configuration that
+        :return: None
+        """
         if config is not None:
             self.outputFlowConfig = config
 
     def get_config(self):
+        """
+        Returns output configuration of this Stock
+        :return: Output Configuration of this Stock
+        """
         return self.outputFlowConfig
 
     def completeness_check(self):
+        """
+        Check completeness of output flow of this stock.
+        Return False, if there is 0 or less elements in outputFlow, otherwise return True.
+        :return: Completeness of output flow of this stock.
+        """
         if len(self.outputFlow) <= 0:
             print(self.name + ': no output flow')
             return False
