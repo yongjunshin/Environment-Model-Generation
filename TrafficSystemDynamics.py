@@ -49,6 +49,10 @@ class TrafficSystemDynamics(SystemDynamics):
         # print("Total Completeness Check:", roadSystemDynamics.completeness_check())
 
     def update(self):
+        """
+
+        :return:
+        """
         '''
         for stock in self.stocks:
             stock.make_flow()
@@ -68,20 +72,13 @@ class TrafficSystemDynamics(SystemDynamics):
             self.stocks[i].make_flow()
 
     def initialize_input_flow_configuration(self, input_data_files):
-        # TODO: input 식 생성 후 기존 식 삭제
+        """
+
+        :param input_data_files:
+        :return:
+        """
         analyzer = DataAnalyzer()
         input_configs = analyzer.csv_data_to_equation(input_data_files)
-
-        input_configs = [
-             [-0.000172471411178, 0.0159890490833, -0.602110974228, 11.7443492102, -124.522704423, 676.349943652,
-              -1490.36861775, 648.048901187, 1470.93828307],
-             [-3.17924989149e-06, 0.000284027668872, -0.00995312174726, 0.168750874386, -1.30445079083, 1.71270241657,
-              28.7888271572, -78.6878691422, -39.5814038074, 338.643855421],
-             [-5.81112658562e-07, 6.37419649161e-05, -0.00302446756423, 0.0813760542257, -1.36259198627, 14.5693979154,
-              -97.0834098303, 364.528345285, -532.853201384, -229.367239839, 1619.15298156],
-             [-3.4254423242e-07, 3.2086845451e-05, -0.00120120525597, 0.022729657215, -0.227258577962, 1.21597639486,
-              -5.15912010743, 30.381515264, -66.821398373, -25.9780406881, 323.523340224]
-        ]
 
         system_dynamics_config = []
         for i in range(12):

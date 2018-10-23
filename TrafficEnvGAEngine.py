@@ -8,10 +8,8 @@ from deap import base, creator
 
 
 class TrafficEnvGAEngine(GeneticAlgorithmEngine):
-    def __init__(self, config_file, generation, population, cxpb, mutpb, elitpb, sd):
-        # TODO: ga_config_file_to_values 구현 후 파라미터 수정
+    def __init__(self, config_file, sd):
         num_gen, num_pop, cross_prob, mut_prob, elit_prob = self.ga_config_file_to_values(config_file)
-        num_gen, num_pop, cross_prob, mut_prob, elit_prob = generation, population, cxpb, mutpb, elitpb
         GeneticAlgorithmEngine.__init__(self, num_gen, num_pop)
         self.cxpb = cross_prob
         self.mutpb = mut_prob
@@ -32,23 +30,46 @@ class TrafficEnvGAEngine(GeneticAlgorithmEngine):
         self.toolbox.register("select", tools.selTournament, tournsize=3)
         self.toolbox.register("evaluate", self.fitness_function)
 
-    # TODO: implementation
     def ga_config_file_to_values(self, config_file):
         """
         read GA configuration file and return values
         :param config_file: GA configuration file
         :return: tuple of values of the configuration
         """
-        configurations = (0, 0, 0, 0, 0)
-        return configurations
+        configurations = []
+        configuration_list = open(config_file, "r")
+        for i in range(2):
+            line = configuration_list.readline()
+            if not line:
+                break
+            line = line.split(': ')
+            configurations.append(int(line[1]))
+        while True:
+            line = configuration_list.readline()
+            if not line:
+                break
+            line = line.split(': ')
+            configurations.append(float(line[1]))
+        configuration_list.close()
+        return tuple(configurations)
 
     def selection(self, population):
+        """
+
+        :param population:
+        :return:
+        """
         offspring = self.toolbox.select(population, int(len(population)*self.elitpb))
         new_offspring = self.toolbox.population(self.population-len(offspring))
         offspring = offspring + new_offspring
         return offspring
 
     def mutation(self, population):
+        """
+
+        :param population:
+        :return:
+        """
         offspring = [self.toolbox.clone(ind) for ind in population]
         # Apply mutation on the offspring
         for i in range(len(offspring)):
@@ -58,6 +79,11 @@ class TrafficEnvGAEngine(GeneticAlgorithmEngine):
         return offspring
 
     def crossover(self, population):
+        """
+
+        :param population:
+        :return:
+        """
         offspring = [self.toolbox.clone(ind) for ind in population]
         # Apply crossover on the offspring
         for i in range(1, len(offspring), 2):
@@ -67,6 +93,11 @@ class TrafficEnvGAEngine(GeneticAlgorithmEngine):
         return offspring
 
     def representation_to_output_flow_config(self, representation):
+        """
+
+        :param representation:
+        :return:
+        """
         # representation is list of 12 float variables.
         # outputFlowConfig is a list of 12 configuration lists
         config = []
@@ -81,7 +112,13 @@ class TrafficEnvGAEngine(GeneticAlgorithmEngine):
                 config.append(None)
         return config
 
-    def fitness_function(self, args):   # Gene is a SystemDynamicsGene configuration. Goal is a data. Fitness is an error.
+    def fitness_function(self, args):
+        """
+
+        :param args:
+        :return:
+        """
+        # Gene is a SystemDynamicsGene configuration. Goal is a data. Fitness is an error.
         #   args = (gene_configuration = float[12], goal = float[4])
         gene = args[0]
         goal_data = args[1]
@@ -102,26 +139,25 @@ class TrafficEnvGAEngine(GeneticAlgorithmEngine):
         return (avg_abs_error,)
 
     def evaluation(self, population, goal):
+        """
+
+        :param population:
+        :param goal:
+        :return:
+        """
         invalid_ind = [(ind, goal) for ind in population if not ind.fitness.valid]
         fitnesses = self.toolbox.map(self.toolbox.evaluate, invalid_ind)
         for ind, fit in zip(invalid_ind, fitnesses):
             ind[0].fitness.values = fit
 
     def criteria_data_generation(self, goal_data_files):
-        # TODO: output 식 생성 후 기존 식 삭제
+        """
+
+        :param goal_data_files:
+        :return:
+        """
         analyzer = DataAnalyzer()
         equation = analyzer.csv_data_to_equation(goal_data_files)
-
-        equation = [
-            [-1.00308443955e-06, 0.000109319671245, -0.00511030917602, 0.134225942574, -2.17652896364, 22.4438785859,
-             -144.621055537, 532.931223015, -818.252752483, -135.884983131, 1687.82024869],
-            [3.70204557043e-07, -4.30527893412e-05, 0.00207358064481, -0.0530091207001, 0.759046553612, -5.72292919652,
-             15.6502621843, 43.4033809984, -251.353170233, 211.970138972, 185.741847391],
-            [-6.81077097341e-07, 7.05429933723e-05, -0.00312725239443, 0.0786490224715, -1.26071509318, 13.651295323,
-             -99.5380490007, 436.79472203, -807.739766424, 63.9682286788, 1491.71184382],
-            [1.10815138667e-06, -0.000127221738881, 0.00611596653591, -0.159159351009, 2.41585005985, -21.3919198483,
-             103.592131637, -232.82263525, 188.347476486, -78.1087346542, 400.365041013]
-        ]
 
         total_goal = []
         for e in equation:
@@ -135,6 +171,11 @@ class TrafficEnvGAEngine(GeneticAlgorithmEngine):
         return total_goal
 
     def best_individual_in_population(self, population):
+        """
+
+        :param population:
+        :return:
+        """
         best_fitness = None
         best_index = None
         for i in range(len(population)):
@@ -148,6 +189,11 @@ class TrafficEnvGAEngine(GeneticAlgorithmEngine):
         return population[best_index]
 
     def search(self, goal_data_files):
+        """
+
+        :param goal_data_files:
+        :return:
+        """
         goal_data = self.criteria_data_generation(goal_data_files)
         best_individual = None
         errors = []

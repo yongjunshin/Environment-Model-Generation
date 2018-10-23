@@ -15,6 +15,8 @@ deap.egg-info/SOURCES.txt
 deap.egg-info/dependency_links.txt
 deap.egg-info/pbr.json
 deap.egg-info/top_level.txt
+deap/tools/_hypervolume/_hv.c
+deap/tools/_hypervolume/hv.cpp
 deap/benchmarks/__init__.py
 deap/benchmarks/binary.py
 deap/benchmarks/gp.py
