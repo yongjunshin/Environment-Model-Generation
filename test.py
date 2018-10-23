@@ -5,8 +5,12 @@ from TrafficEnvGAEngine import TrafficEnvGAEngine
 from TrafficSystemDynamics import TrafficSystemDynamics
 
 
-
 def criteria_data_generation():
+    """
+    Generate a target data for GA from a traffic data file.
+    Get equation from files and get target data from that equation.
+    :return: List of lists that includes target data for GA
+    """
     data_analyzer = DataAnalyzer()
     equation = data_analyzer.csv_data_to_equation(["data/g_after_up.csv", "data/g_before_up.csv", "data/g_before_down.csv", "data/g_after_down.csv",
                                                    "data/p_after_up.csv", "data/p_before_up.csv", "data/p_before_down.csv", "data/p_after_down.csv"])

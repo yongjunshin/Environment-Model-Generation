@@ -50,8 +50,8 @@ class TrafficSystemDynamics(SystemDynamics):
 
     def update(self):
         """
-
-        :return:
+        Update state and Make flow for each stock in this system dynamics.
+        :return: None.
         """
         '''
         for stock in self.stocks:
@@ -73,9 +73,10 @@ class TrafficSystemDynamics(SystemDynamics):
 
     def initialize_input_flow_configuration(self, input_data_files):
         """
-
-        :param input_data_files:
-        :return:
+        Initialize Input configuration - equation from input data files.
+        Get equation - configuration from files and set configuration of this system dynamics
+        :param input_data_files: List of name of input data files
+        :return: None.
         """
         analyzer = DataAnalyzer()
         input_configs = analyzer.csv_data_to_equation(input_data_files)
