@@ -55,9 +55,9 @@ class TrafficEnvGAEngine(GeneticAlgorithmEngine):
 
     def selection(self, population):
         """
-
-        :param population:
-        :return:
+        Select offspring among population
+        :param population: List of genes
+        :return: List of genes which is selected among initial population
         """
         offspring = self.toolbox.select(population, int(len(population)*self.elitpb))
         new_offspring = self.toolbox.population(self.population-len(offspring))
@@ -66,9 +66,9 @@ class TrafficEnvGAEngine(GeneticAlgorithmEngine):
 
     def mutation(self, population):
         """
-
-        :param population:
-        :return:
+        Mutate population by mutation probability of this GA Engine.
+        :param population: List of genes
+        :return: List of genes after mutation
         """
         offspring = [self.toolbox.clone(ind) for ind in population]
         # Apply mutation on the offspring
@@ -80,9 +80,9 @@ class TrafficEnvGAEngine(GeneticAlgorithmEngine):
 
     def crossover(self, population):
         """
-
-        :param population:
-        :return:
+        Crossover genes by crossover probability of this GA engine.
+        :param population: List of genes.
+        :return: List of genes after crossover between two gene.
         """
         offspring = [self.toolbox.clone(ind) for ind in population]
         # Apply crossover on the offspring
@@ -94,9 +94,9 @@ class TrafficEnvGAEngine(GeneticAlgorithmEngine):
 
     def representation_to_output_flow_config(self, representation):
         """
-
-        :param representation:
-        :return:
+        Make a configuration based on representation - gene and return it.
+        :param representation: List of 12 float variables - gene.
+        :return: List of configuration
         """
         # representation is list of 12 float variables.
         # outputFlowConfig is a list of 12 configuration lists
@@ -114,9 +114,9 @@ class TrafficEnvGAEngine(GeneticAlgorithmEngine):
 
     def fitness_function(self, args):
         """
-
-        :param args:
-        :return:
+        Fitness evaluation function for this GA engine.
+        :param args: List that includes gene and goal data.
+        :return: fitness value calculated based on goal data.
         """
         # Gene is a SystemDynamicsGene configuration. Goal is a data. Fitness is an error.
         #   args = (gene_configuration = float[12], goal = float[4])
@@ -140,10 +140,10 @@ class TrafficEnvGAEngine(GeneticAlgorithmEngine):
 
     def evaluation(self, population, goal):
         """
-
-        :param population:
-        :param goal:
-        :return:
+        Evaluate each gene in population by using goal data and store the fitness value in gene.
+        :param population: List of genes.
+        :param goal: Goal data that using for fitness evaluation
+        :return: None.
         """
         invalid_ind = [(ind, goal) for ind in population if not ind.fitness.valid]
         fitnesses = self.toolbox.map(self.toolbox.evaluate, invalid_ind)
@@ -152,9 +152,10 @@ class TrafficEnvGAEngine(GeneticAlgorithmEngine):
 
     def criteria_data_generation(self, goal_data_files):
         """
-
-        :param goal_data_files:
-        :return:
+        Make a goal data - criteria data from list of files.
+        Make equations based on files, and make a data from that equation.
+        :param goal_data_files: List of name of files includes data
+        :return: List of lists includes target data
         """
         analyzer = DataAnalyzer()
         equation = analyzer.csv_data_to_equation(goal_data_files)
@@ -172,9 +173,9 @@ class TrafficEnvGAEngine(GeneticAlgorithmEngine):
 
     def best_individual_in_population(self, population):
         """
-
-        :param population:
-        :return:
+        Find the gene that has best fitness value in this population
+        :param population: List of genes
+        :return: Gene that has best fitness value in this population
         """
         best_fitness = None
         best_index = None
@@ -190,9 +191,10 @@ class TrafficEnvGAEngine(GeneticAlgorithmEngine):
 
     def search(self, goal_data_files):
         """
-
-        :param goal_data_files:
-        :return:
+        Search coefficient by using GA
+        :param goal_data_files: List of name of files that includes data goal.
+        :return state: List of states from the best result searched by GA
+        :return error: List of errors from the best result searched by GA
         """
         goal_data = self.criteria_data_generation(goal_data_files)
         best_individual = None
