@@ -61,11 +61,11 @@ class DataAnalyzer:
     def show_equation_on_graph(self, equation):
         """
         draw given equation on graph and show the graph
-        :param equation: list of equation constants in decreasing order of degree
+        :param equation: list of lists of equation constants in decreasing order of degree
         :return: None, pop up a graph
         """
         x = []
-        i = 1
+        i = 0
         while i <= 23:
             x.append(i)
             i += 0.05
@@ -73,4 +73,39 @@ class DataAnalyzer:
             d_function = np.poly1d(single_equation)
             y = d_function(x)
             plt.plot(x, y)
+        plt.show()
+
+    def show_states_on_graph(self, states):
+        """
+        draw given data on graph and show the graph
+        :param states: list of state
+        :return: None, pop up a graph
+        """
+        x = range(0, 24)
+        plt.plot(x, states)
+        plt.show()
+
+    def compare_state_and_equation_on_graph(self, states, single_equation, title, file_name):
+        """
+        draw given data and equation on graph and show the graph.
+        Save this graph to given file_name
+        :param states: list of state
+        :param single_equation: list of equation constants in decreasing order of degree
+        :param title: Title of this graph
+        :param file_name: Name of file that graph will be saved
+        :return: None, pop up a graph
+        """
+        x = range(0, 24)
+        plt.plot(x, states, label='Data obtained by using GA')
+
+        d_function = np.poly1d(single_equation)
+        y = d_function(x)
+        plt.plot(x, y, label='Target data')
+
+        plt.xlabel('Time (hour)')
+        plt.ylabel('Number of vehicles')
+        plt.legend(loc='upper left')
+        plt.title(title)
+        fig = plt.gcf()
+        fig.savefig(file_name)
         plt.show()
