@@ -61,5 +61,9 @@ print()
 print("error in the searched model")
 print(errors)
 
+
 data_analyzer = DataAnalyzer()
-data_analyzer.show_equation_on_graph(data_analyzer.csv_data_to_equation(output_data))
+output_equations = data_analyzer.csv_data_to_equation(output_data)
+for i in range(4):
+    data_analyzer.compare_state_and_equation_on_graph(states[2 * i + 1], output_equations[i],
+                                                      'Compare Stock ' + str(2 * i + 1), 'figure/graph_' + str(2 * i + 1))
