@@ -71,6 +71,38 @@ class TrafficSystemDynamics(SystemDynamics):
         for i in range(1, 8, 2):
             self.stocks[i].make_flow()
 
+    def update30(self):
+        """
+        Update state and Make flow for each stock in this system dynamics.
+        :return: None.
+        """
+        for i in range(8, 12):
+            self.stocks[i].make_flow30()
+        for i in range(0, 8, 2):
+            self.stocks[i].update_state30()
+        for i in range(0, 8, 2):
+            self.stocks[i].make_flow30()
+        for i in range(1, 8, 2):
+            self.stocks[i].update_state30()
+        for i in range(1, 8, 2):
+            self.stocks[i].make_flow30()
+
+    def update60(self):
+        """
+        Update state and Make flow for each stock in this system dynamics.
+        :return: None.
+        """
+        for i in range(8, 12):
+            self.stocks[i].make_flow60()
+        for i in range(0, 8, 2):
+            self.stocks[i].update_state60()
+        for i in range(0, 8, 2):
+            self.stocks[i].make_flow60()
+        for i in range(1, 8, 2):
+            self.stocks[i].update_state60()
+        for i in range(1, 8, 2):
+            self.stocks[i].make_flow60()
+
     def initialize_input_flow_configuration(self, input_data_files):
         """
         Initialize Input configuration - equation from input data files.

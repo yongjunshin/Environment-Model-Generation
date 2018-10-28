@@ -200,6 +200,8 @@ class TrafficEnvGAEngine(GeneticAlgorithmEngine):
         best_individual = None
         errors = []
         states = []
+        states30 = []
+        states60 = []
 
         for t in range(24):
             # generate sub goal for fitness evaluation
@@ -227,6 +229,18 @@ class TrafficEnvGAEngine(GeneticAlgorithmEngine):
                 # The population is entirely replaced by the offspring
                 pop[:] = offspring
 
+                # find the best individual after the whole generations
+                best_individual = self.best_individual_in_population(pop)
+
+                if g == 1:
+                    self.systemDynamics.set_config30(self.representation_to_output_flow_config(best_individual))
+                    self.systemDynamics.update30()
+                    states30.append(self.systemDynamics.get_state30())
+                elif g == 30:
+                    self.systemDynamics.set_config60(self.representation_to_output_flow_config(best_individual))
+                    self.systemDynamics.update60()
+                    states60.append(self.systemDynamics.get_state60())
+
             # find the best individual after the whole generations
             best_individual = self.best_individual_in_population(pop)
 
@@ -236,4 +250,4 @@ class TrafficEnvGAEngine(GeneticAlgorithmEngine):
             states.append(self.systemDynamics.get_state())
             errors.append(best_individual.fitness.values[0])
 
-        return states, errors
+        return states, errors, states30, states60

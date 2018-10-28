@@ -85,18 +85,22 @@ class DataAnalyzer:
         plt.plot(x, states)
         plt.show()
 
-    def compare_state_and_equation_on_graph(self, states, single_equation, title, file_name):
+    def compare_state_and_equation_on_graph(self, states, single_equation, states30, states60, title, file_name):
         """
         draw given data and equation on graph and show the graph.
         Save this graph to given file_name
         :param states: list of state
         :param single_equation: list of equation constants in decreasing order of degree
+        :param states: list of state on generation 30
+        :param states: list of state on generation 60
         :param title: Title of this graph
         :param file_name: Name of file that graph will be saved
         :return: None, pop up a graph
         """
         x = range(0, 24)
-        plt.plot(x, states, label='Data obtained by using GA')
+        plt.plot(x, states, label='Generation 100')
+        plt.plot(x, states30, label='Generation 30')
+        plt.plot(x, states60, label='Generation 60')
 
         d_function = np.poly1d(single_equation)
         y = d_function(x)

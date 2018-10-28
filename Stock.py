@@ -5,6 +5,8 @@ class Stock(metaclass=ABCMeta):
     def __init__(self, name, initial_value):
         self.name = name
         self.state = initial_value
+        self.state30 = initial_value
+        self.state60 = initial_value
         self.inputFlow = []
         self.outputFlow = []
 
@@ -13,7 +15,23 @@ class Stock(metaclass=ABCMeta):
         pass
 
     @abstractmethod
+    def make_flow30(self):
+        pass
+
+    @abstractmethod
+    def make_flow60(self):
+        pass
+
+    @abstractmethod
     def set_config(self, config):
+        pass
+
+    @abstractmethod
+    def set_config30(self, config):
+        pass
+
+    @abstractmethod
+    def set_config60(self, config):
         pass
 
     @abstractmethod
@@ -32,12 +50,42 @@ class Stock(metaclass=ABCMeta):
         """
         self.state = sum([flow.get_state() for flow in self.inputFlow])
 
+    def update_state30(self):
+        """
+        Update the value of state of this stock based on input flow.
+        Add all values of input flow and update it to state.
+        :return: None.
+        """
+        self.state30 = sum([flow.get_state30() for flow in self.inputFlow])
+
+    def update_state60(self):
+        """
+        Update the value of state of this stock based on input flow.
+        Add all values of input flow and update it to state.
+        :return: None.
+        """
+        self.state60 = sum([flow.get_state60() for flow in self.inputFlow])
+
     def get_state(self):
         """
         Return the value of state of this stock
         :return: the value of state of this stock
         """
         return self.state
+
+    def get_state30(self):
+        """
+        Return the value of state of this stock
+        :return: the value of state of this stock
+        """
+        return self.state30
+
+    def get_state60(self):
+        """
+        Return the value of state of this stock
+        :return: the value of state of this stock
+        """
+        return self.state60
 
     def add_input_flow(self, flow):
         """

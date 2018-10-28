@@ -25,6 +25,20 @@ class SystemDynamics(metaclass=ABCMeta):
         """
         return [stock.get_state() for stock in self.stocks]
 
+    def get_state30(self):
+        """
+        Get state of stocks in this system dynamics model.
+        :return: the list of values of state of stock in this system dynamics model.
+        """
+        return [stock.get_state30() for stock in self.stocks]
+
+    def get_state60(self):
+        """
+        Get state of stocks in this system dynamics model.
+        :return: the list of values of state of stock in this system dynamics model.
+        """
+        return [stock.get_state60() for stock in self.stocks]
+
     def completeness_check(self):
         """
         Check completeness of input and output flow of stocks in this system dynamics model.
@@ -45,3 +59,23 @@ class SystemDynamics(metaclass=ABCMeta):
         """
         for i in range(len(self.stocks)):
             self.stocks[i].set_config(config[i])
+
+    def set_config30(self, config):
+        """
+        Set configuration30 of stocks in this system dynamics model.
+        Set configuration30 of stock to each element of list 'config'
+        :param config: list of configurations
+        :return: None
+        """
+        for i in range(len(self.stocks)):
+            self.stocks[i].set_config30(config[i])
+
+    def set_config60(self, config):
+        """
+        Set configuration60 of stocks in this system dynamics model.
+        Set configuration60 of stock to each element of list 'config'
+        :param config: list of configurations
+        :return: None
+        """
+        for i in range(len(self.stocks)):
+            self.stocks[i].set_config60(config[i])

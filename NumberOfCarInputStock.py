@@ -6,6 +6,8 @@ class NumberOfCarInputStock(Stock):
         Stock.__init__(self, name, initial_value)
         self.outputFlowConfig = output_flow_config
         self.time = 0
+        self.time30 = 0
+        self.time60 = 0
 
     def make_flow(self):
         """
@@ -21,7 +23,54 @@ class NumberOfCarInputStock(Stock):
 
         self.time = self.time + 1
 
+    def make_flow30(self):
+        """
+        Make an output flow based on this stock's output configuration
+        :return: None
+        """
+        set_variable = 0
+        for i in range(len(self.outputFlowConfig)):
+            set_variable = set_variable + self.outputFlowConfig[-1-i]*(self.time30**i)
+
+        for output in self.outputFlow:
+            output.set_state30(set_variable)
+
+        self.time30 = self.time30 + 1
+
+    def make_flow60(self):
+        """
+        Make an output flow based on this stock's output configuration
+        :return: None
+        """
+        set_variable = 0
+        for i in range(len(self.outputFlowConfig)):
+            set_variable = set_variable + self.outputFlowConfig[-1-i]*(self.time60**i)
+
+        for output in self.outputFlow:
+            output.set_state60(set_variable)
+
+        self.time60 = self.time60 + 1
+
     def set_config(self, config):
+        """
+        Set configuration to a given configuration.
+        :param config: configuration that
+        :return: None
+        """
+        if config is not None:
+            self.outputFlowConfig = config
+
+    def set_config30(self, config):
+        """
+        Set configuration to a given configuration.
+        :param config: configuration that
+        :return: None
+        """
+        if config is not None:
+            print(config)
+            self.outputFlowConfig = config
+
+    def set_config60(self, config):
         """
         Set configuration to a given configuration.
         :param config: configuration that

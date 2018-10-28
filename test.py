@@ -52,9 +52,11 @@ print([abs((goal[0][i]+goal[2][i]+goal[4][i]+goal[6][i])-(goal[1][i]+goal[3][i]+
 # GA engine generation and search
 print("\n\n====== Genetic Algorithm =====")
 GA = TrafficEnvGAEngine("GA_config.txt", traffic_system_dynamics)
-states, errors = GA.search(output_data)
+states, errors, states30, states60 = GA.search(output_data)
 print("states")
 states = [list(i) for i in zip(*states)]
+states30 = [list(i) for i in zip(*states30)]
+states60 = [list(i) for i in zip(*states60)]
 for s in states[:8]:
     print(s)
 print()
@@ -66,4 +68,5 @@ data_analyzer = DataAnalyzer()
 output_equations = data_analyzer.csv_data_to_equation(output_data)
 for i in range(4):
     data_analyzer.compare_state_and_equation_on_graph(states[2 * i + 1], output_equations[i],
+                                                      states30[2 * i + 1], states60[2 * i + 1],
                                                       'Compare Stock ' + str(2 * i + 1), 'figure/graph_' + str(2 * i + 1))

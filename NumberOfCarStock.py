@@ -5,6 +5,8 @@ class NumberOfCarStock(Stock):
     def __init__(self, name, initial_value, output_flow_config):
         Stock.__init__(self, name, initial_value)
         self.outputFlowConfig = output_flow_config
+        self.outputFlowConfig30 = output_flow_config
+        self.outputFlowConfig60 = output_flow_config
 
     def make_flow(self):
         """
@@ -15,6 +17,24 @@ class NumberOfCarStock(Stock):
             set_variable = self.state * (self.outputFlowConfig[i]/sum(self.outputFlowConfig))
             self.outputFlow[i].set_state(set_variable)
 
+    def make_flow30(self):
+        """
+        Make an output flow30 based on this stock's output configuration
+        :return: None
+        """
+        for i in range(len(self.outputFlow)):
+            set_variable = self.state * (self.outputFlowConfig30[i]/sum(self.outputFlowConfig30))
+            self.outputFlow[i].set_state30(set_variable)
+
+    def make_flow60(self):
+        """
+        Make an output flow30 based on this stock's output configuration
+        :return: None
+        """
+        for i in range(len(self.outputFlow)):
+            set_variable = self.state * (self.outputFlowConfig60[i]/sum(self.outputFlowConfig60))
+            self.outputFlow[i].set_state60(set_variable)
+
     def set_config(self, config):
         """
         Set configuration to a given configuration.
@@ -23,6 +43,24 @@ class NumberOfCarStock(Stock):
         """
         if config is not None:
             self.outputFlowConfig = config
+
+    def set_config30(self, config):
+        """
+        Set configuration30 to a given configuration.
+        :param config: configuration that
+        :return: None
+        """
+        if config is not None:
+            self.outputFlowConfig30 = config
+
+    def set_config60(self, config):
+        """
+        Set configuration60 to a given configuration.
+        :param config: configuration that
+        :return: None
+        """
+        if config is not None:
+            self.outputFlowConfig60 = config
 
     def get_config(self):
         """
