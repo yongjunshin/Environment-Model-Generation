@@ -232,11 +232,11 @@ class TrafficEnvGAEngine(GeneticAlgorithmEngine):
                 # find the best individual after the whole generations
                 best_individual = self.best_individual_in_population(pop)
 
-                if g == 1:
+                if g == 0:
                     self.systemDynamics.set_config30(self.representation_to_output_flow_config(best_individual))
                     self.systemDynamics.update30()
                     states30.append(self.systemDynamics.get_state30())
-                elif g == 30:
+                elif g == 50:
                     self.systemDynamics.set_config60(self.representation_to_output_flow_config(best_individual))
                     self.systemDynamics.update60()
                     states60.append(self.systemDynamics.get_state60())

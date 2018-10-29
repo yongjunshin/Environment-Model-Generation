@@ -98,9 +98,9 @@ class DataAnalyzer:
         :return: None, pop up a graph
         """
         x = range(0, 24)
+        plt.plot(x, states30, label='Generation 0')
+        plt.plot(x, states60, label='Generation 50')
         plt.plot(x, states, label='Generation 100')
-        plt.plot(x, states30, label='Generation 30')
-        plt.plot(x, states60, label='Generation 60')
 
         d_function = np.poly1d(single_equation)
         y = d_function(x)
